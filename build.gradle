@@ -1,0 +1,55 @@
+buildscript {
+    ext {
+        ext.springVersion = '4.3.17.RELEASE'
+        ext.springSecurityVersion = '4.2.6.RELEASE'
+        ext.springBootVersion = '1.5.13.RELEASE'
+        ext.hibernateVersion = '5.2.3.Final'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+plugins {
+    id 'net.ltgt.apt' version '0.10'
+}
+
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+
+
+group = 'just.fo'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.2'
+
+    apt "org.projectlombok:lombok:1.18.2"
+    compile group: 'org.springframework', name: 'spring-web', version: "${springVersion}"
+    compile('org.springframework.boot:spring-boot-starter')
+    compile('org.springframework.boot:spring-boot-starter-tomcat')
+    compile('org.springframework.boot:spring-boot-starter-data-rest')
+    compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: "${hibernateVersion}"
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: "${springBootVersion}"
+
+    compile("org.hibernate:hibernate-core:${hibernateVersion}") {
+        exclude group: 'org.apache.geronimo.specs', module: 'geronimo-jta_1.1_spec'
+    }
+
+    runtime group: 'org.postgresql', name: 'postgresql', version: '42.1.1'
+    //compile('org.springframework.boot:spring-boot-starter-web')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
